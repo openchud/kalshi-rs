@@ -1,0 +1,29 @@
+[package]
+name = "kalshi"
+version = "0.1.0"
+edition = "2024"
+authors = ["Rob Dekovich <rob@usealto.ai>"]
+description = "Typed Rust SDK for the Kalshi prediction market API"
+license = "MIT"
+repository = "https://github.com/rdekovich/kalshi-rs"
+keywords = ["kalshi", "prediction-market", "trading", "api"]
+categories = ["api-bindings", "finance"]
+readme = "README.md"
+
+[dependencies]
+reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+thiserror = "2"
+base64 = "0.22"
+rsa = { version = "0.9", features = ["sha2", "pem"] }
+sha2 = "0.10"
+chrono = { version = "0.4", features = ["serde"] }
+tracing = "0.1"
+url = "2"
+rand = "0.8"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full", "test-util"] }
+wiremock = "0.6"
