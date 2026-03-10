@@ -30,6 +30,7 @@ mod auth;
 mod client;
 mod error;
 pub mod models;
+pub mod ws;
 
 pub use auth::KalshiAuth;
 pub use client::Kalshi;

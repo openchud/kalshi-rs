@@ -23,6 +23,8 @@ chrono = { version = "0.4", features = ["serde"] }
 tracing = "0.1"
 url = "2"
 rand = "0.8"
+tokio-tungstenite = { version = "0.26", features = ["rustls-tls-webpki-roots"] }
+futures-util = "0.3"
 
 [dev-dependencies]
 tokio = { version = "1", features = ["full", "test-util"] }
