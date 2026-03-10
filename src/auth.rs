@@ -1,10 +1,10 @@
 use base64::Engine;
 use base64::engine::general_purpose::STANDARD as BASE64;
+use rsa::RsaPrivateKey;
 use rsa::pkcs8::DecodePrivateKey;
 use rsa::pss::{BlindedSigningKey, Signature};
 use rsa::sha2::Sha256;
 use rsa::signature::RandomizedSigner;
-use rsa::RsaPrivateKey;
 use std::path::Path;
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -21,7 +21,10 @@ pub struct KalshiAuth {
 
 impl KalshiAuth {
     /// Create auth from an API key ID and a PEM-encoded private key file.
-    pub fn from_key_file(api_key_id: impl Into<String>, path: impl AsRef<Path>) -> Result<Self, Error> {
+    pub fn from_key_file(
+        api_key_id: impl Into<String>,
+        path: impl AsRef<Path>,
+    ) -> Result<Self, Error> {
         let pem = std::fs::read_to_string(path)?;
         Self::from_key_pem(api_key_id, &pem)
     }

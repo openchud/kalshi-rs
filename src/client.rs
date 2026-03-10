@@ -123,7 +123,11 @@ impl Kalshi {
     }
 
     /// Get events with optional cursor for pagination.
-    pub async fn get_events(&self, cursor: Option<&str>, limit: Option<u32>) -> Result<EventsResponse, Error> {
+    pub async fn get_events(
+        &self,
+        cursor: Option<&str>,
+        limit: Option<u32>,
+    ) -> Result<EventsResponse, Error> {
         let mut path = "/events".to_string();
         let mut params = vec![];
         if let Some(c) = cursor {
@@ -151,7 +155,11 @@ impl Kalshi {
     }
 
     /// Get market orderbook.
-    pub async fn get_orderbook(&self, ticker: &str, depth: Option<u32>) -> Result<OrderbookResponse, Error> {
+    pub async fn get_orderbook(
+        &self,
+        ticker: &str,
+        depth: Option<u32>,
+    ) -> Result<OrderbookResponse, Error> {
         let mut path = format!("/markets/{ticker}/orderbook");
         if let Some(d) = depth {
             path = format!("{path}?depth={d}");
@@ -273,7 +281,10 @@ impl Kalshi {
     // ── Orders ───────────────────────────────────────────────────────
 
     /// Create a new order.
-    pub async fn create_order(&self, order: &CreateOrderRequest) -> Result<CreateOrderResponse, Error> {
+    pub async fn create_order(
+        &self,
+        order: &CreateOrderRequest,
+    ) -> Result<CreateOrderResponse, Error> {
         self.post("/portfolio/orders", order).await
     }
 
