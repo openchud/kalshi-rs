@@ -17,6 +17,10 @@ pub enum Error {
     #[error("Auth error: {0}")]
     Auth(String),
 
+    /// WebSocket connection or protocol error.
+    #[error("WebSocket error: {0}")]
+    WebSocket(String),
+
     /// I/O error (reading key files, etc).
     #[error("IO error: {0}")]
     Io(#[from] std::io::Error),

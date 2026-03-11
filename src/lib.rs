@@ -26,9 +26,9 @@
 //! }
 //! ```
 
-mod auth;
-mod client;
-mod error;
+pub mod auth;
+pub mod client;
+pub mod error;
 pub mod models;
 pub mod ws;
 

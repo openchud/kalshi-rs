@@ -42,7 +42,10 @@ impl KalshiAuth {
     /// Generate authentication headers for a request.
     ///
     /// Returns (key, signature, timestamp) header values.
-    pub(crate) fn sign(&self, method: &str, path: &str) -> Result<AuthHeaders, Error> {
+    /// Generate authentication headers for a request.
+    ///
+    /// Returns [`AuthHeaders`] containing the key, signature, and timestamp.
+    pub fn sign(&self, method: &str, path: &str) -> Result<AuthHeaders, Error> {
         let timestamp_ms = SystemTime::now()
             .duration_since(UNIX_EPOCH)
             .map_err(|e| Error::Auth(format!("Clock error: {e}")))?
@@ -67,7 +70,7 @@ impl KalshiAuth {
 }
 
 /// Auth header values to attach to requests.
-pub(crate) struct AuthHeaders {
+pub struct AuthHeaders {
     pub key: String,
     pub signature: String,
     pub timestamp: String,

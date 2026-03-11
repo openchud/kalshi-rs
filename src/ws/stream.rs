@@ -36,7 +36,7 @@ impl KalshiStream {
     pub async fn connect_to(url: &str, auth: Option<&KalshiAuth>) -> Result<Self, Error> {
         let uri = url
             .parse::<tungstenite::http::Uri>()
-            .map_err(|e| Error::Auth(format!("Invalid WebSocket URL: {e}")))?;
+            .map_err(|e| Error::WebSocket(format!("Invalid URL: {e}")))?;
 
         let mut req_builder = tungstenite::http::Request::builder()
             .uri(url)
@@ -59,11 +59,11 @@ impl KalshiStream {
 
         let request = req_builder
             .body(())
-            .map_err(|e| Error::Auth(format!("Failed to build WebSocket request: {e}")))?;
+            .map_err(|e| Error::WebSocket(format!("Failed to build request: {e}")))?;
 
         let (ws, _response) = connect_async(request)
             .await
-            .map_err(|e| Error::Auth(format!("WebSocket connection failed: {e}")))?;
+            .map_err(|e| Error::WebSocket(format!("Connection failed: {e}")))?;
 
         debug!("WebSocket connected to {url}");
 
@@ -94,7 +94,7 @@ impl KalshiStream {
         self.ws
             .send(tungstenite::Message::Text(msg.into()))
             .await
-            .map_err(|e| Error::Auth(format!("Failed to send: {e}")))?;
+            .map_err(|e| Error::WebSocket(format!("Failed to send: {e}")))?;
 
         Ok(())
     }
@@ -119,7 +119,7 @@ impl KalshiStream {
         self.ws
             .send(tungstenite::Message::Text(msg.into()))
             .await
-            .map_err(|e| Error::Auth(format!("Failed to send: {e}")))?;
+            .map_err(|e| Error::WebSocket(format!("Failed to send: {e}")))?;
 
         Ok(())
     }
@@ -144,7 +144,7 @@ impl KalshiStream {
                 Some(Ok(tungstenite::Message::Close(_))) => return Ok(None),
                 Some(Ok(_)) => continue, // Binary, Pong, Frame
                 Some(Err(e)) => {
-                    return Err(Error::Auth(format!("WebSocket error: {e}")));
+                    return Err(Error::WebSocket(format!("Stream error: {e}")));
                 }
                 None => return Ok(None),
             }
@@ -156,7 +156,7 @@ impl KalshiStream {
         self.ws
             .close(None)
             .await
-            .map_err(|e| Error::Auth(format!("Failed to close: {e}")))?;
+            .map_err(|e| Error::WebSocket(format!("Failed to close: {e}")))?;
         Ok(())
     }
 }
